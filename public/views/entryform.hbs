@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Express yourself</title>
+  </head>
+  <body>
+    <div id = "entry-container">
+      <ul id = "entrylist">
+
+      </ul>
+    </div>
+    <div>
+
+      <form action = "/formsubmit" method="post">
+        <fieldset>
+          <legend>New Entry</legend>
+          <input type = "text" id = "title" name = "entryTitle" placeholder = "Title"></input><br>
+          <input type = "text" id = "date" name = "entryDate" id = "inputDate" placeholder="Date"></input><br>
+          <input type = "text" id = "content" name = "entryContent" placeholder = "Penny for your thoughts"></input>
+          <input type = "submit" value = "submit">
+        </fieldset>
+      </form>
+    </div>
+    <div>
+      <ul id = "entryContainer">
+      </ul>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src = "/socket.io/socket.io.js"></script>
+    <script>
+
+      var socket = io();
+      $("form").submit(function(){
+        var entry = {};
+        entry["title"] = $("#title").val();
+        entry["date"] = $("#date").val();
+        entry["content"] = $("#content").val();
+
+        socket.emit("ClientNotification", entry);
+        $("#title").val("");
+        $("#date").val("");
+        $("#content").val("");
+
+        return false;
+      });
+
+      socket.on("ServerNotification", function(serverData){
+        $("#entryContainer").appen($("<li>").text(serverData));
+      });
+
+
+
+    </script>
+  </body>
+</html>
