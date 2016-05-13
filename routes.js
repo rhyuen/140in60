@@ -1,7 +1,11 @@
+"use strict";
+
 var express = require("express");
+var mongoose = require("mongoose");
 var path = require("path");
 var auth = require("./auth.js");
 var Entry = require("./models/entry.js");
+var config = require("./config.js");
 var UserController = require("./controllers/usercontroller.js");
 
 
@@ -11,26 +15,53 @@ module.exports = function(app, io){
     res.sendFile(path.join(__dirname, "public/views/index.html"));
   });
 
-
+  //Authenticaiton for a person with login credentials already
   app.post("/", auth.isAuthenticated, function(req, res){
     //return user details.
     //if in db, return all relevant posts.
+    var userEmail =  req.body.loginemail;
+    //var userPw = req.body.loginpassword;
+    Entry.find({userId: userEmail}, function(err, data){
+      if(err)
+        console.error(err);
+      console.log(data);
+      res.json({posttitle: data.title,
+        postdate: data.date,
+        postcontent: data.content,
+        postuserid: data.userId
+      });
+    });
   });
-
 
   //Make new User
   //No Auth Needed
   app.post("/user", UserController.postUser);
 
 
-
   //Get Public User Profile
   //No Auth Needed.
-  app.get("/user/:userid", function(req, res){
+  app.get("/user/:userid", UserController.getUser);
 
+
+
+  app.post("/entry", function(req, res){
+      mongoose.connect(config.db, function(err, result){
+        var latestEntry = new Entry({
+          title: req.body.formentrytitle,
+          date: req.body.formentrydate,
+          content: req.body.formentrycontent,
+          userId: req.body.formentryuserid
+        });
+
+        latestEntry.save(function(err, cbResponse){
+          if(err)
+            console.error(err);
+          console.log(cbResponse);
+          res.send(cbResponse);
+          mongoose.disconnect();
+        });
+      })
   });
-
-
   /*
     app.get("/submit", function(req, res){
       res.sendFile(path.join(__dirname, "public/views/index.html"));

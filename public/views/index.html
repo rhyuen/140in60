@@ -7,30 +7,67 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+    <style>
+    html{
+      background-image: url("../images/fw2.jpg");
+      color: #000;
+    }
+    </style>
   </head>
   <body>
     <div><p>MyJourney</p></div>
-    <div>
-      <form action = "/" method="POST">
+
+    <div class = "mdl-grid">
+      <div class = "mdl-cell mdl-cell--2-col">
+      </div>
+
+      <div class = "mdl-cell mdl-cell--4-col">
+
+        <form action = "/" method="POST">
+          <div class = "mdl-textfield mdl-js-textfield">
+              <input class = "mdl-textfield__input" type="text" name = "loginusername" placeholder="email"></input><br>
+              <input class = "mdl-textfield__input" type = "text"  name = "loginpassword" placeholder="pw"></input><br>
+              <input type = "submit" placeholder="Login"></input>
+          </div>
+        </form>
+      </div>
+
+      <div class = "mdl-cell mdl-cell--4-col">
+        <form action = "/user" method="POST">
+          <div class = "mdl-textfield mdl-js-textfield">
+            <input class = "mdl-textfield__input" type = "text" name = "newuseremail" placeholder="eg: john.doe@gmail.com"></input><br>
+            <input class = "mdl-textfield__input" type = "text" name = "newusername" placeholder="eg: A_Unique_Name"></input><br>
+            <input class = "mdl-textfield__input" type = "text"  name = "newuserpassword" placeholder ="Your PW"></input><br>
+            <input class = "mdl-textfield__input" type = "text"  name = "newuserpasswordtwo" placeholder ="Verify PW"></input><br>
+            <input type = "submit" placeholder="Signup"></input><br>
+          </div>
+        </form>
+      </div>
+
+      <div class = "mdl-cell mdl-cell--2-col">
+      </div>
+
+  </div>
+  <div class = "mdl-grid">
+    <div class = "mdl-cell mdl-cell--4-col">
+    </div>
+
+    <div class = "mdl-cell mdl-cell--4-col">
+      <form action = "/entry" method="POST">
         <div class = "mdl-textfield mdl-js-textfield">
-            <input class = "mdl-textfield__input" type="text" name = "loginUserName" placeholder="email"></input><br>
-            <input class = "mdl-textfield__input" type = "text"  name = "loginPassword" placeholder="pw"></input><br>
-            <input type = "submit" placeholder="Login"></input>          
+          <input class = "mdl-textfield__input" type = "text" name = "formentrytitle" placeholder="Entry Title"></input><br>
+          <input class = "mdl-textfield__input" type = "text" name = "formentrydate" placeholder="Date of Entry"></input><br>
+          <input class = "mdl-textfield__input" type = "text"  name = "formentrycontent" placeholder ="Content of Entry"></input><br>
+          <input class = "mdl-textfield__input" type = "text"  name = "formentryuserid" placeholder ="Entry Owner's UserID"></input><br>
+          <input type = "submit" placeholder="Submit Entry"></input><br>
         </div>
       </form>
     </div>
 
-    <div>
-      <form action = "/user" method="POST">
-        <div class = "mdl-textfield mdl-js-textfield">
-          <input class = "mdl-textfield__input" type = "text" name = "email" placeholder="eg: john.doe@gmail.com"></input><br>
-          <input class = "mdl-textfield__input" type = "text" name = "username" placeholder="eg: A_Unique_Name"></input><br>
-          <input class = "mdl-textfield__input" type = "text"  name = "password" placeholder ="Your PW"></input><br>
-          <input class = "mdl-textfield__input" type = "text"  name = "password" placeholder ="Verify PW"></input><br>
-          <input type = "submit" placeholder="Signup"></input><br>
-        </div>
-      </form>
+    <div class = "mdl-cell mdl-cell--4-col">
     </div>
+
+</div>
     <script type = "text/javascript" src = "/views/index.js"></script>
   </body>
 </html>

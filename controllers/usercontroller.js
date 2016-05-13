@@ -6,9 +6,9 @@ exports.postUser = function(req, res){
   mongoose.connect(config.db, function(err){
 
   var user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password
+    username: req.body.newusername,
+    email: req.body.newuseremail,
+    password: req.body.newuserpassword
   });
 
     user.save(function(err, data){
@@ -20,7 +20,9 @@ exports.postUser = function(req, res){
   });
 };
 
+//stuff to figure out here.
 exports.getUser = function(req, res){
+  var userid = req.param.userid;
   User.find({}, function(err, user){
     if(err)
       res.send(err);
