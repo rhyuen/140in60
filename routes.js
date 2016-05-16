@@ -19,16 +19,20 @@ module.exports = function(app, io){
   app.post("/", auth.isAuthenticated, function(req, res){
     //return user details.
     //if in db, return all relevant posts.
-    var userEmail =  req.body.loginemail;
-    //var userPw = req.body.loginpassword;
-    Entry.find({userId: userEmail}, function(err, data){
-      if(err)
-        console.error(err);
-      console.log(data);
-      res.json({posttitle: data.title,
-        postdate: data.date,
-        postcontent: data.content,
-        postuserid: data.userId
+    console.log(req.body.username);
+    mongoose.connect(config.db, function(err){
+      var userEmail =  req.body.loginusername;
+      //var userPw = req.body.loginpassword;
+      Entry.find({userId: username}, function(err, data){
+        if(err)
+          console.error(err);
+        console.log(data);
+        res.json({posttitle: data.title,
+          postdate: data.date,
+          postcontent: data.content,
+          postuserid: data.userId
+        });
+        //mongoose.disconnect();
       });
     });
   });

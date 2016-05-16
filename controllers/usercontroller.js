@@ -5,17 +5,17 @@ var config = require("../config.js");
 exports.postUser = function(req, res){
   mongoose.connect(config.db, function(err){
 
-  var user = new User({
-    username: req.body.newusername,
-    email: req.body.newuseremail,
-    password: req.body.newuserpassword
-  });
+    var user = new User({
+      username: req.body.newusername,
+      email: req.body.newuseremail,
+      password: req.body.newuserpassword
+    });
 
     user.save(function(err, data){
       if(err)
         res.send(err);
       res.json({message: "A new user has been added.", username: data.username, email: data.email, pw_hash: data.password});
-      mongoose.disconnect();
+      //mongoose.disconnect();
     });
   });
 };
@@ -23,7 +23,7 @@ exports.postUser = function(req, res){
 //stuff to figure out here.
 exports.getUser = function(req, res){
   var userid = req.param.userid;
-  User.find({}, function(err, user){
+  User.find({username: userid}, function(err, user){
     if(err)
       res.send(err);
     res.send("Success");
