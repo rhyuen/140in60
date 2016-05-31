@@ -1,6 +1,7 @@
 var User = require("../models/user.js");
 var mongoose = require("mongoose");
 var config = require("../config.js");
+var path = require("path");
 
 exports.postUser = function(req, res){
   mongoose.connect(config.db, function(err){
@@ -25,7 +26,7 @@ exports.getUser = function(req, res){
   var userid = req.param.userid;
   User.find({username: userid}, function(err, user){
     if(err)
-      res.send(err);
+      res.sendFile(path.join(__dirname, "public/views/error.html"));
     res.send("Success");
   });
 };

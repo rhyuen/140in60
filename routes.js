@@ -10,6 +10,11 @@ var UserController = require("./controllers/usercontroller.js");
 
 
 module.exports = function(app, io){
+
+  app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("/");
+  });
   //Get Home Page
   app.get("/", function(req, res){
     res.sendFile(path.join(__dirname, "public/views/index.html"));
