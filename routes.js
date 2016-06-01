@@ -11,66 +11,57 @@ var UserController = require("./controllers/usercontroller.js");
 
 module.exports = function(app, io){
 
-  app.get("/logout", function(req, res){
-    req.logout();
-    res.redirect("/");
-  });
-  //Get Home Page
   app.get("/", function(req, res){
     res.sendFile(path.join(__dirname, "public/views/index.html"));
   });
 
-  //Authenticaiton for a person with login credentials already
   app.post("/", auth.isAuthenticated, function(req, res){
-    //return user details.
-    //if in db, return all relevant posts.
-    console.log(req.body.username);
-    mongoose.connect(config.db, function(err){
-      var userEmail =  req.body.loginusername;
-      //var userPw = req.body.loginpassword;
-      Entry.find({userId: username}, function(err, data){
-        if(err)
-          console.error(err);
-        console.log(data);
-        res.json({posttitle: data.title,
-          postdate: data.date,
-          postcontent: data.content,
-          postuserid: data.userId
-        });
-        //mongoose.disconnect();
-      });
+
+    //consider btoa
+    //consider jquery
+
+    console.log(req.body.loginusername);
+
+    var loginusername = req.body.loginusername;
+
+    Entry.find({userId: loginusername}, function(err, data){
+      if(err)
+        console.error(err);
+      console.log(data);
+      res.json(data);
     });
   });
 
-  //Make new User
-  //No Auth Needed
-  app.post("/user", UserController.postUser);
+  app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("/");
+  });
 
+  //Make New User
+  app.post("/user", UserController.postUser);
 
   //Get Public User Profile
   //No Auth Needed.
   app.get("/user/:userid", UserController.getUser);
 
-
-
   app.post("/entry", function(req, res){
-      mongoose.connect(config.db, function(err, result){
-        var latestEntry = new Entry({
-          title: req.body.formentrytitle,
-          date: req.body.formentrydate,
-          content: req.body.formentrycontent,
-          userId: req.body.formentryuserid
-        });
 
-        latestEntry.save(function(err, cbResponse){
-          if(err)
-            console.error(err);
-          console.log(cbResponse);
-          res.send(cbResponse);
-          mongoose.disconnect();
-        });
-      })
+    var latestEntry = new Entry({
+      title: req.body.formentrytitle,
+      date: req.body.formentrydate,
+      content: req.body.formentrycontent,
+      userId: req.body.formentryuserid
+    });
+
+    latestEntry.save(function(err, cbResponse){
+      if(err)
+        console.error(err);
+      console.log(cbResponse);
+      res.send(cbResponse);
+    });
   });
+
+
   /*
     app.get("/submit", function(req, res){
       res.sendFile(path.join(__dirname, "public/views/index.html"));

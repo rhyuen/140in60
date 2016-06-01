@@ -31,6 +31,7 @@ app.engine(".hbs", exphbs({defaultLayout: "layout",
 
 app.use(passport.initialize());
 
+mongoose.connect(config.db);
 var httpServer = http.createServer(app);
 var io = require("socket.io")(httpServer);
 
